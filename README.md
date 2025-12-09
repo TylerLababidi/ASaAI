@@ -1,33 +1,44 @@
-﻿# ASaAI Projekt
 
-Überblick
+# 🧠 ASaAI – Alzheimer Stadium Classification
 
-Dieses Projekt trainiert ein Convolutional Neural Network (CNN) zur Klassifikation von Alzheimer-Stadien auf Bilddaten. Es verwendet das EfficientNet-B0 Modell aus PyTorch mit optional vortrainierten Gewichten. Zusätzlich werden Trainingsergebnisse ausgewertet (Accuracy, Confusion Matrix, Classification Report) und visualisiert.
+Dieses Projekt trainiert ein Convolutional Neural Network (CNN), um verschiedene Alzheimer-Stadien anhand von MRT-Bildern zu klassifizieren.
+Verwendet wird **EfficientNet-B0** aus PyTorch – optional mit vortrainierten ImageNet-Gewichten.
+Trainingsergebnisse werden ausgewertet (Accuracy, Confusion Matrix, Classification Report) und visuell dargestellt.
 
-Features
+---
 
-Datenaugmentation: Rotation, horizontales Flip, Helligkeit/Kontrast-Variation
+## 🚀 Features
 
-Nutzung von GPU (CUDA) falls verfügbar
+* **Datenaugmentation:**
+  Rotation, horizontales Flip, Helligkeit-/Kontrastvariation
+* **GPU-Unterstützung (CUDA)** – automatisch, falls verfügbar
+* **Modellspeicherung:** `mini_model_pretrained.pth`
+* **Evaluation:**
 
-Speicherung des trainierten Modells (mini_model_pretrained.pth)
+  * Accuracy
+  * Confusion Matrix
+  * Classification Report
+* **Visualisierung:** Heatmap der Confusion Matrix
 
-Evaluation mit Accuracy, Confusion Matrix und Classification Report
+---
 
-Heatmap Visualisierung der Confusion Matrix
+## 📦 Voraussetzungen
 
-Voraussetzungen
+* **Python 3.10+**
+* **Virtuelle Umgebung empfohlen**
 
-Python 3.10+
+### Abhängigkeiten installieren:
 
-Virtuelle Umgebung (empfohlen)
-
-Abhängigkeiten:
-
+```bash
 pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
 pip install matplotlib seaborn scikit-learn
+```
 
-Ordnerstruktur
+---
+
+## 📁 Ordnerstruktur
+
+```
 ASaAI/
 │
 ├─ Data/
@@ -36,105 +47,153 @@ ASaAI/
 │
 ├─ train_and_eval.py   # Trainings- und Evaluationsscript
 ├─ README.md           # Dieses Dokument
-└─ mini_model_pretrained.pth  # Optional, gespeichertes Modell nach Training
+└─ mini_model_pretrained.pth  # Optional gespeichertes Modell
+```
 
+### Beispiel für Datenstruktur:
 
-Daten: Jede Klasse muss in einem eigenen Unterordner liegen. Beispiel:
+```
+Data/train/MildDemented/img001.png
+Data/train/ModerateDemented/img002.png
+Data/val/VeryMildDemented/img003.png
+Data/train/NonDemented/img004.png
+```
 
-Data/train/MildDemented/xxx.png
-Data/train/ModerateDemented/yyy.png
+---
 
-Nutzung
-1. Projekt klonen
+## ▶️ Nutzung
+
+### **1. Projekt klonen**
+
+```bash
 git clone <repo-url>
 cd ASaAI
 python -m venv venv
 .\venv\Scripts\activate   # Windows
 # oder
-source venv/bin/activate   # Linux/Mac
+source venv/bin/activate  # Linux/Mac
+```
 
-2. Abhängigkeiten installieren
+### **2. Abhängigkeiten installieren**
+
+```bash
 pip install -r requirements.txt
-# alternativ:
+```
+
+oder manuell:
+
+```bash
 pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
 pip install matplotlib seaborn scikit-learn
+```
 
-3. Training starten
+### **3. Training starten**
+
+```bash
 python train_and_eval.py
+```
 
+Was dann passiert:
 
-Das Skript erkennt automatisch, ob eine GPU verfügbar ist.
+* GPU wird automatisch erkannt
+* EfficientNet-B0 wird geladen (mit oder ohne Pretrained Weights)
+* Trainings- und Validierungsphase laufen
+* Modell wird gespeichert
+* Accuracy & Reports werden angezeigt
+* Confusion-Matrix-Heatmap wird visualisiert
 
-Trainiert das EfficientNet-B0 Modell, speichert das Modell nach Training.
+---
 
-Ausgabe: Loss pro Epoch, Accuracy, Confusion Matrix, Classification Report.
+## 📥 Modell für spätere Nutzung laden
 
-Heatmap wird direkt angezeigt.
-
-4. Modell laden für spätere Nutzung
+```python
 import torch
 from torchvision import models
 from torch import nn
 
-model = models.efficientnet_b0(weights=models.EfficientNet_B0_Weights.IMAGENET1K_V1)
-model.classifier[1] = nn.Linear(model.classifier[1].in_features, 4)  # Anzahl Klassen
+model = models.efficientnet_b0(
+    weights=models.EfficientNet_B0_Weights.IMAGENET1K_V1
+)
+
+model.classifier[1] = nn.Linear(model.classifier[1].in_features, 4)
 model.load_state_dict(torch.load("mini_model_pretrained.pth"))
 model.eval()
+```
 
-Erklärung des Codes
+---
 
-Imports: PyTorch, torchvision, sklearn, Matplotlib, Seaborn
+## 🧩 Erklärung des Codes
 
-Device wählen: GPU (CUDA) falls verfügbar, sonst CPU
+### **1. Imports**
 
-Datenvorbereitung: Resize auf 224×224, Normalisierung, Data Augmentation
+PyTorch, torchvision, sklearn, Matplotlib, Seaborn
 
-DataLoader: Training & Validierung in Batches
+### **2. Device-Auswahl**
 
-Modell: EfficientNet-B0 mit vortrainierten Gewichten
+CUDA, falls verfügbar → sonst CPU
 
-Klassifizierer anpassen: Output-Layer für 4 Klassen
+### **3. Datenvorbereitung**
 
-Loss & Optimizer: CrossEntropyLoss + Adam für Klassifizierer
+* Resize auf 224×224
+* Normalisierung
+* Data Augmentation für robustere Modelle
 
-Training: Epochen durchlaufen, Loss ausgeben
+### **4. DataLoader**
 
-Evaluation: Accuracy, Confusion Matrix, Classification Report
+Batchweise Bilder für Training & Validierung
 
-Visualisierung: Heatmap der Confusion Matrix
+### **5. Modell**
 
-Hinweise & Tipps
+* EfficientNet-B0
+* Vortrainierte Gewichte optional
+* Klassifizierer wird für z. B. 4 Alzheimer-Klassen angepasst
 
-Für kleine Tests: Subset() oder wenige Bilder laden, um schnelle Ergebnisse zu bekommen
+### **6. Loss & Optimizer**
 
-Mit vortrainierten Gewichten (weights=IMAGENET1K_V1) kann man Accuracy deutlich steigern
+* CrossEntropyLoss
+* Adam Optimizer
 
-Bei unzureichender Accuracy:
+### **7. Training**
 
-Mehr Daten nutzen
+* Epochen durchlaufen
+* Loss je Epoch ausgeben
 
-Data Augmentation erweitern
+### **8. Evaluation**
 
-Klassifizierer oder gesamte Basis feintunen
+* Accuracy
+* Confusion Matrix
+* Classification Report
 
-Learning Rate anpassen
+### **9. Visualisierung**
 
-Batch Size anpassen
+Heatmap der Confusion Matrix mit seaborn
 
-Probleme, die auftreten können
+---
 
-CUDA nicht gefunden: Torch ohne GPU installiert → Lösung: Torch mit CUDA installieren
+## 📊 Hinweise & Tipps
 
-Accuracy niedrig bei kleinen Datensätzen → Datenmenge erhöhen, Data Augmentation verwenden
+### Gute Accuracy erreichen:
 
-Warnungen bei Classification Report: z.B. UndefinedMetricWarning → einzelne Klassen im Testset fehlen
+* Vortrainierte Gewichte nutzen (IMAGENET1K_V1)
+* Data Augmentation erweitern
+* Lernrate anpassen
+* Batch Size erhöhen
+* Mehr Bilder nutzen
 
-Nächste Schritte
+### Häufige Probleme:
 
-Komplettes Dataset trainieren
+| Problem               | Ursache                                    | Lösung                                          |
+| --------------------- | ------------------------------------------ | ----------------------------------------------- |
+| CUDA fehlt            | Torch ohne GPU installiert                 | Torch mit CUDA neu installieren                 |
+| Niedrige Accuracy     | Wenig Daten, Overfitting oder Underfitting | Augmentieren, mehr Daten, LR ändern, Feintuning |
+| Warnungen beim Report | Klasse fehlt im Testset                    | Mehr balanced Validation                        |
 
-Feintuning: Basis-Layer teilweise trainieren, nicht nur Klassifizierer
+---
 
-Weitere Evaluation: ROC, Precision-Recall Kurven
+## 🔜 Nächste Schritte
 
-Modell speichern & exportieren für andere Projekte
+* Komplettes Dataset trainieren
+* Feintuning der EfficientNet-Basis
+* Weitere Evaluationsmetriken wie ROC/PR-Kurven
+* Modell exportieren für Web/Apps (z. B. ONNX)
+
