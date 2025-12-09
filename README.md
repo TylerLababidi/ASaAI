@@ -77,12 +77,6 @@ source venv/bin/activate  # Linux/Mac
 ### **2. Abhängigkeiten installieren**
 
 ```bash
-pip install -r requirements.txt
-```
-
-oder manuell:
-
-```bash
 pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
 pip install matplotlib seaborn scikit-learn
 ```
@@ -196,4 +190,5 @@ Heatmap der Confusion Matrix mit seaborn
 * Feintuning der EfficientNet-Basis
 * Weitere Evaluationsmetriken wie ROC/PR-Kurven
 * Modell exportieren für Web/Apps (z. B. ONNX)
+
 
