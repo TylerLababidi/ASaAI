@@ -52,7 +52,7 @@ criterion = nn.CrossEntropyLoss()
 optimizer = optim.Adam(model.classifier.parameters(), lr=0.001)
 
 # Training
-EPOCHS = 10  # Vortrainiertes Modell benötigt weniger Epochen
+EPOCHS = 1  # Vortrainiertes Modell benötigt weniger Epochen
 for epoch in range(EPOCHS):
     model.train()
     running_loss = 0
