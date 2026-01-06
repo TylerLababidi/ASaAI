@@ -84,7 +84,8 @@ pip install matplotlib seaborn scikit-learn
 ### **3. Training starten**
 
 ```bash
-python train_and_eval.py
+python train_model.py
+python evaluate_model.py
 ```
 
 Was dann passiert:
@@ -190,5 +191,6 @@ Heatmap der Confusion Matrix mit seaborn
 * Feintuning der EfficientNet-Basis
 * Weitere Evaluationsmetriken wie ROC/PR-Kurven
 * Modell exportieren für Web/Apps (z. B. ONNX)
+
 
 
