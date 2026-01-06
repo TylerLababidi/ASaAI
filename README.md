@@ -170,9 +170,9 @@ Heatmap der Confusion Matrix mit seaborn
 
 * Vortrainierte Gewichte nutzen (IMAGENET1K_V1)
 * Data Augmentation erweitern
-* Lernrate anpassen
-* Batch Size erhöhen
-* Mehr Bilder nutzen
+* Lernrate anpassen 
+* Batch Size erhöhen ✅
+* Mehr Bilder nutzen ✅
 
 ### Häufige Probleme:
 
