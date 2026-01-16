@@ -8,17 +8,17 @@ import numpy as np
 from io import BytesIO
 
 # Gerät wählen
-DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+DEVICE = torch.device("cpu")
 
 # Klassen
 classes = ['Mild', 'Moderate', 'Non', 'VeryMild']
 
 # Eigenes Modell (identisch zum Training)
-class MyMRTModel(nn.Module):
+class DefineModel(nn.Module):
     def __init__(self, num_classes=4):
-        super(MyMRTModel, self).__init__()
+        super(DefineModel, self).__init__()
         self.features = nn.Sequential(
-            nn.Conv2d(3, 16, kernel_size=3, padding=1),
+            nn.Conv2d(1, 16, kernel_size=3, padding=1),
             nn.ReLU(),
             nn.MaxPool2d(2),
             nn.Conv2d(16, 32, kernel_size=3, padding=1),
@@ -44,16 +44,17 @@ class MyMRTModel(nn.Module):
         return x
 
 # Modell laden
-model = MyMRTModel(num_classes=4).to(DEVICE)
-model.load_state_dict(torch.load("my_mrt_model.pth", weights_only=True))
+model = DefineModel(num_classes=4).to(DEVICE)
+model.load_state_dict(torch.load("basti_mri_model.pth", weights_only=True))
 model.eval()
 print("Modell geladen ✅")
 
 # Transformation
 transform = transforms.Compose([
     transforms.Resize((224,224)),
+    transforms.Grayscale(num_output_channels=1),
     transforms.ToTensor(),
-    transforms.Normalize([0.5,0.5,0.5], [0.5,0.5,0.5])
+    transforms.Normalize([0.5], [0.5])
 ])
 
 # Vorhersagefunktion

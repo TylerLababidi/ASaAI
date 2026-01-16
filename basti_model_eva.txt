@@ -1,0 +1,103 @@
+MODEL EVALUATION
+1st attempt: 5 epochs
+
+Accuracy: 94.62%
+
+Classification Report:
+              precision    recall  f1-score   support
+
+        Mild       0.93      0.98      0.95      2000
+    Moderate       1.00      1.00      1.00      2000
+         Non       0.94      0.92      0.93      2000
+    VeryMild       0.92      0.89      0.90      2000
+
+    accuracy                           0.95      8000
+   macro avg       0.95      0.95      0.95      8000
+weighted avg       0.95      0.95      0.95      8000
+
+======================================================
+
+2nd attempt: 15 epochs
+
+Training model: basti_mri_model.pth
+Hardware used:  cpu
+Images for training: 32000, images for validation: 8000
+Classes:  ['Mild', 'Moderate', 'Non', 'VeryMild']
+Model created
+Starting training...
+Epoch [1/15]
+	Train loss: 0.9082
+	Validation loss: 0.5913
+	Validation accuracy: 72.42%
+Epoch [2/15]
+	Train loss: 0.5686
+	Validation loss: 0.3508
+	Validation accuracy: 86.49%
+Epoch [3/15]
+	Train loss: 0.4088
+	Validation loss: 0.2074
+	Validation accuracy: 92.20%
+Epoch [4/15]
+	Train loss: 0.3076
+	Validation loss: 0.1256
+	Validation accuracy: 96.21%
+Epoch [5/15]
+	Train loss: 0.2412
+	Validation loss: 0.1184
+	Validation accuracy: 95.78%
+Epoch [6/15]
+	Train loss: 0.1910
+	Validation loss: 0.0727
+	Validation accuracy: 97.78%
+Epoch [7/15]
+	Train loss: 0.1590
+	Validation loss: 0.0847
+	Validation accuracy: 97.36%
+Epoch [8/15]
+	Train loss: 0.1411
+	Validation loss: 0.0687
+	Validation accuracy: 97.96%
+Epoch [9/15]
+	Train loss: 0.1183
+	Validation loss: 0.0667
+	Validation accuracy: 97.86%
+Epoch [10/15]
+	Train loss: 0.1078
+	Validation loss: 0.0517
+	Validation accuracy: 98.49%
+Epoch [11/15]
+	Train loss: 0.0963
+	Validation loss: 0.0576
+	Validation accuracy: 98.29%
+Epoch [12/15]
+	Train loss: 0.0948
+	Validation loss: 0.0430
+	Validation accuracy: 98.74%
+Epoch [13/15]
+	Train loss: 0.0831
+	Validation loss: 0.0648
+	Validation accuracy: 98.24%
+Epoch [14/15]
+	Train loss: 0.0766
+	Validation loss: 0.0609
+	Validation accuracy: 98.42%
+Epoch [15/15]
+	Train loss: 0.0735
+	Validation loss: 0.0476
+	Validation accuracy: 98.59%
+Training completed in 6135.89 seconds (102.26 minutes).
+New model saved as basti_mri_model.pth
+
+Accuracy: 98.59%
+
+Classification Report:
+              precision    recall  f1-score   support
+
+        Mild       0.99      0.97      0.98      2000
+    Moderate       1.00      1.00      1.00      2000
+         Non       0.98      1.00      0.99      2000
+    VeryMild       0.98      0.98      0.98      2000
+
+    accuracy                           0.99      8000
+   macro avg       0.99      0.99      0.99      8000
+weighted avg       0.99      0.99      0.99      8000

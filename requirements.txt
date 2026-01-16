@@ -1,0 +1,3 @@
+torchvision == latest
+torch == lastest
+torchaudio == latest

@@ -6,32 +6,34 @@ from sklearn.metrics import confusion_matrix, classification_report, accuracy_sc
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-print("Evaluation gestartet ✅")
+modelName = "basti_mri_model.pth"
+print("Evaluating model: " + modelName)
 
 # Gerät wählen
-DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-print("Benutztes Gerät:", DEVICE)
+DEVICE = torch.device("cpu")
+print("Hardware used: ", DEVICE)
 
 # Bildtransformationen
 transform = transforms.Compose([
     transforms.Resize((224,224)),
+    transforms.Grayscale(num_output_channels=1),
     transforms.ToTensor(),
-    transforms.Normalize([0.5,0.5,0.5], [0.5,0.5,0.5])
+    transforms.Normalize([0.5], [0.5])
 ])
 
 # Daten laden
 val_data = datasets.ImageFolder('Data/val', transform=transform)
 val_loader = DataLoader(val_data, batch_size=32)
 classes = val_data.classes
-print(f"Validierungsbilder: {len(val_data)}")
-print("Klassen:", classes)
+print(f"Images for validation: {len(val_data)}")
+print("Classes:", classes)
 
 # Eigenes Modell definieren (muss identisch zur Training-Architektur sein)
-class MyMRTModel(nn.Module):
+class DefineModel(nn.Module):
     def __init__(self, num_classes=4):
-        super(MyMRTModel, self).__init__()
+        super(DefineModel, self).__init__()
         self.features = nn.Sequential(
-            nn.Conv2d(3, 16, kernel_size=3, padding=1),
+            nn.Conv2d(1, 16, kernel_size=3, padding=1),
             nn.ReLU(),
             nn.MaxPool2d(2),
             nn.Conv2d(16, 32, kernel_size=3, padding=1),
@@ -57,10 +59,10 @@ class MyMRTModel(nn.Module):
         return x
 
 # Modell laden
-model = MyMRTModel(num_classes=len(classes)).to(DEVICE)
-model.load_state_dict(torch.load("my_mrt_model.pth"))
+model = DefineModel(num_classes=len(classes)).to(DEVICE)
+model.load_state_dict(torch.load(modelName, map_location=DEVICE))
 model.eval()
-print("Modell geladen ✅")
+print("Modell loaded. Starting evaluation...")
 
 # Evaluation
 all_labels, all_preds = [], []
@@ -94,4 +96,4 @@ plt.ylabel("True Label")
 plt.xlabel("Predicted Label")
 plt.title("Confusion Matrix")
 plt.show()
-print("Evaluation abgeschlossen ✅")
+print("Evaluation finished.")
