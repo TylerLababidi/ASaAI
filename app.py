@@ -43,11 +43,11 @@ class DefineModel(nn.Module):
         x = self.classifier(x)
         return x
 
-# Modell laden
+
 model = DefineModel(num_classes=4).to(DEVICE)
-model.load_state_dict(torch.load("basti_mri_model.pth", weights_only=True))
+model.load_state_dict(torch.load("basti_mri_model_e15.pth", weights_only=True))
 model.eval()
-print("Modell geladen ✅")
+print("Model loaded")
 
 # Transformation
 transform = transforms.Compose([
@@ -98,4 +98,4 @@ iface = gr.Interface(
 )
 
 iface.launch()
-print("Gradio Interface gestartet ✅")
+print("Gradio Interface started")

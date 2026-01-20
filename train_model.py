@@ -8,21 +8,19 @@ import seaborn as sns
 import numpy as np
 import time
 
-#Benennung
-modelName = "basti_mri_model.pth"
-
+#Benennung und Ressourcenzuweisung
+modelName = "smallDataset_mri_model_DL_e10.pth"
 print("Training model: " + modelName)
 DEVICE = torch.device("cpu")
 # num_blocks = len(models.efficientnet_b0().features)
 # print(f"Anzahl der Blöcke im EfficientNet-B0: {num_blocks}")
-
-# Gerät wählen: GPU (cuda) falls verfügbar, sonst CPU
-DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+#DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print("Hardware used: ", DEVICE)
 
 # Bildtransformationen inkl. Data Augmentation
 transform = transforms.Compose([
     transforms.Resize((224,224)),
+    transforms.RandomVerticalFlip(p=0.5),
     transforms.Grayscale(num_output_channels=1),
     transforms.ToTensor(),
     transforms.Normalize([0.5], [0.5])
@@ -94,8 +92,8 @@ criterion = nn.CrossEntropyLoss()
 optimizer = optim.Adam(model.parameters(), lr=5e-4)
 
 
-# Training mit Live-Validierung -> Ausschluss Overfitting
-EPOCHS = 5  #
+# Training
+EPOCHS = 100
 for epoch in range(EPOCHS):
     # Trainingsphase
     model.train()

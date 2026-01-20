@@ -101,3 +101,66 @@ Classification Report:
     accuracy                           0.99      8000
    macro avg       0.99      0.99      0.99      8000
 weighted avg       0.99      0.99      0.99      8000
+
+======================================================
+
+3rd attempt: OF 20 epochs
+
+Training model: basti_mri_model_OF_e20.pth
+
+Epoch 1/20, Loss: 0.9304
+Epoch 2/20, Loss: 0.5857
+Epoch 3/20, Loss: 0.4359
+Epoch 4/20, Loss: 0.3376
+Epoch 5/20, Loss: 0.2751
+Epoch 6/20, Loss: 0.2285
+Epoch 7/20, Loss: 0.1967
+Epoch 8/20, Loss: 0.1766
+Epoch 9/20, Loss: 0.1563
+Epoch 10/20, Loss: 0.1369
+Epoch 11/20, Loss: 0.1278
+Epoch 12/20, Loss: 0.1231
+Epoch 13/20, Loss: 0.1072
+Epoch 14/20, Loss: 0.1057
+Epoch 15/20, Loss: 0.0942
+Epoch 16/20, Loss: 0.0935
+Epoch 17/20, Loss: 0.0856
+Epoch 18/20, Loss: 0.0830
+Epoch 19/20, Loss: 0.0768
+Epoch 20/20, Loss: 0.0791
+Validation loss: 0.0735
+	Validation accuracy: 97.94%
+
+	Accuracy: 97.94%
+
+Classification Report:
+              precision    recall  f1-score   support
+
+        Mild       0.99      0.95      0.97      2000
+    Moderate       1.00      1.00      1.00      2000
+         Non       0.96      1.00      0.98      2000
+    VeryMild       0.96      0.97      0.97      2000
+
+    accuracy                           0.98      8000
+   macro avg       0.98      0.98      0.98      8000
+weighted avg       0.98      0.98      0.98      8000
+
+======================================================
+
+4th attempt: 10 epochs
+
+Training model:
+
+Validation accuracy: 43.28%
+
+Classification Report:
+                  precision    recall  f1-score   support
+
+    MildDemented       1.00      0.06      0.11        17
+ModerateDemented       0.40      1.00      0.57        14
+     NonDemented       0.42      0.53      0.47        15
+VeryMildDemented       0.50      0.29      0.36        21
+
+        accuracy                           0.43        67
+       macro avg       0.58      0.47      0.38        67
+    weighted avg       0.59      0.43      0.37        67

@@ -6,7 +6,7 @@ from sklearn.metrics import confusion_matrix, classification_report, accuracy_sc
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-modelName = "basti_mri_model.pth"
+modelName = "smallDataset_mri_model_DL_e10.pth"
 print("Evaluating model: " + modelName)
 
 # Gerät wählen
