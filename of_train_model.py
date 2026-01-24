@@ -9,7 +9,7 @@ import numpy as np
 import time
 
 #Benennung und Ressourcenzuweisung
-modelName = "smallDataset_mri_model_DL_e10.pth"
+modelName = "mri_model_LD_e20.pth"
 print("Training model: " + modelName)
 DEVICE = torch.device("cpu")
 # num_blocks = len(models.efficientnet_b0().features)
@@ -27,8 +27,8 @@ transform = transforms.Compose([
 ])
 
 # Daten laden
-train_data = datasets.ImageFolder('Data/train', transform=transform)
-val_data = datasets.ImageFolder('Data/val', transform=transform)
+train_data = datasets.ImageFolder('data2/train', transform=transform)
+val_data = datasets.ImageFolder('data2/val', transform=transform)
 
 # DataLoader erstellen
 train_loader = DataLoader(train_data, batch_size=32, shuffle=True)
@@ -91,9 +91,11 @@ train_start_time = time.time()
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.Adam(model.parameters(), lr=5e-4)
 
+train_losses = []
+val_losses = []
 
 # Training
-EPOCHS = 100
+EPOCHS = 20
 for epoch in range(EPOCHS):
     # Trainingsphase
     model.train()
@@ -106,28 +108,33 @@ for epoch in range(EPOCHS):
         loss.backward()
         optimizer.step()
         running_loss += loss.item()
-    print(f"Epoch {epoch+1}/{EPOCHS}, Loss: {running_loss/len(train_loader):.4f}")
-# Validierungsphase
-model.eval()
-val_loss = 0.0
-correct = 0
-total = 0
-with torch.no_grad():
-    for images, labels in val_loader:
-        images, labels = images.to(DEVICE), labels.to(DEVICE)
-        outputs = model(images)
-        loss = criterion(outputs, labels)
-        val_loss += loss.item()
-        _, predicted = torch.max(outputs.data, 1)
-        total += labels.size(0)
-        correct += (predicted == labels).sum().item()
+    print(f"Epoch {epoch+1}/{EPOCHS} "
+          #f", Loss: {running_loss/len(train_loader):.4f}"
+    )
+    train_losses.append(running_loss/len(train_loader))
+
+    # Validierungsphase
+    model.eval()
+    val_loss = 0.0
+    correct = 0
+    total = 0
+    with torch.no_grad():
+        for images, labels in val_loader:
+            images, labels = images.to(DEVICE), labels.to(DEVICE)
+            outputs = model(images)
+            loss = criterion(outputs, labels)
+            val_loss += loss.item()
+            _, predicted = torch.max(outputs.data, 1)
+            total += labels.size(0)
+            correct += (predicted == labels).sum().item()
 
 
-avg_val_loss = val_loss / len(val_loader)
-val_accuracy = 100 * correct / total
+    avg_val_loss = val_loss / len(val_loader)
+    val_losses.append(avg_val_loss)
+    val_accuracy = 100 * correct / total
 #Ausgabe
-print(f"Validation loss: {avg_val_loss:.4f} \n\t"
-      f"Validation accuracy: {val_accuracy:.2f}%")
+    #print(f"Validation loss: {avg_val_loss:.4f} \n\t"
+        #f"Validation accuracy: {val_accuracy:.2f}%")
 
 
 train_end_time = time.time()
@@ -138,3 +145,14 @@ print(f"Training completed in {train_time:.2f} seconds ({train_time/60:.2f} minu
 torch.save(model.state_dict(), modelName)
 print("New model saved as " + modelName)
 print("Script finished.")
+
+plt.figure(figsize=(10, 5))
+plt.plot(train_losses, label='Training Loss')
+plt.plot(val_losses, label='Validation Loss')
+plt.title('Training vs Validation Loss')
+plt.xlabel('Epochs')
+plt.ylabel('Loss')
+plt.legend()
+plt.grid(True)
+plt.savefig('LD_e20_loss_plot.png')
+plt.show()

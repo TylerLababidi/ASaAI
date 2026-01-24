@@ -6,8 +6,8 @@ from sklearn.metrics import confusion_matrix, classification_report, accuracy_sc
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-modelName = "final_model.pth"
-#modelName = "smallDataset_mri_model_DL_e10.pth"
+
+modelName = "mri_model_SD_e100.pth"
 print("Evaluating model: " + modelName)
 
 # Gerät wählen
@@ -23,7 +23,7 @@ transform = transforms.Compose([
 ])
 
 # Daten laden
-val_data = datasets.ImageFolder('Data/val', transform=transform)
+val_data = datasets.ImageFolder('data/val', transform=transform)
 val_loader = DataLoader(val_data, batch_size=32)
 classes = val_data.classes
 print(f"Images for validation: {len(val_data)}")
