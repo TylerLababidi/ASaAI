@@ -2,9 +2,10 @@ import torch
 from torch import nn
 from torchvision import datasets, transforms
 from torch.utils.data import DataLoader
-from sklearn.metrics import confusion_matrix, classification_report, accuracy_score
+from sklearn.metrics import confusion_matrix, classification_report, accuracy_score, precision_recall_fscore_support
 import matplotlib.pyplot as plt
 import seaborn as sns
+import numpy as np
 
 modelName = "mini_model_pretrained.pth"
 #modelName = "smallDataset_mri_model_DL_e10.pth"
@@ -22,7 +23,7 @@ transform = transforms.Compose([
 ])
 
 # Daten laden
-val_data = datasets.ImageFolder('data/val', transform=transform)
+val_data = datasets.ImageFolder('data2/val', transform=transform)
 val_loader = DataLoader(val_data, batch_size=32)
 classes = val_data.classes
 print(f"Images for validation: {len(val_data)}")
@@ -85,6 +86,36 @@ report = classification_report(
     target_names=classes,
     zero_division=0
 )
+
+precision, recall, f1, support = precision_recall_fscore_support(all_labels, all_preds, average=None)
+
+FP = cm.sum(axis=0) - np.diag(cm)
+FN = cm.sum(axis=1) - np.diag(cm)
+TP = np.diag(cm)
+TN = cm.sum() - (FP + FN + TP)
+
+specificity = TN / (TN + FP)
+macro_specificity = np.mean(specificity)
+
+print("\n" + "="*30)
+print("Detaillierte Evaluation")
+print("="*30)
+
+print(f"Global Accuracy: {accuracy*100:.2f}%")
+print(f"Global Specificity (Macro Avg): {macro_specificity*100:.2f}%")
+print("-" * 30)
+
+print(f"{'Class':<12} | {'Precision':<10} | {'Recall':<10} | {'F1-Score':<10} | {'Specificity':<10}")
+print("-" * 65)
+
+for i, class_name in enumerate(classes):
+    print(f"{class_name:<12} | "
+          f"{precision[i]*100:6.2f}%    | "
+          f"{recall[i]*100:6.2f}%    | "
+          f"{f1[i]*100:6.2f}%    | "
+          f"{specificity[i]*100:6.2f}%")
+
+print("-" * 65)
 
 print("\nClassification Report:")
 print(report)

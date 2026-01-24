@@ -10,7 +10,7 @@ import numpy as np
 import time
 
 #Benennung und Ressourcenzuweisung
-modelName = "mri_model_LD_e20.pth"
+modelName = "mri_model_SUD_e200.pth"
 print("Training model: " + modelName)
 DEVICE = torch.device("cpu")
 # num_blocks = len(models.efficientnet_b0().features)
@@ -19,17 +19,27 @@ DEVICE = torch.device("cpu")
 print("Hardware used: ", DEVICE)
 
 # Bildtransformationen inkl. Data Augmentation
-transform = transforms.Compose([
-    transforms.Resize((224,224)),
-    transforms.RandomVerticalFlip(p=0.5),
-    transforms.Grayscale(num_output_channels=1),
-    transforms.ToTensor(),
-    transforms.Normalize([0.5], [0.5])
+#transform = transforms.Compose([
+#    transforms.Resize((224,224)),
+#    transforms.RandomVerticalFlip(p=0.5),
+#    transforms.Grayscale(num_output_channels=1),
+#    transforms.ToTensor(),
+#    transforms.Normalize([0.5], [0.5])
+#])
+
+#Transformation and Augmentation using v2
+transform = v2.Compose([
+    v2.RandomResizedCrop(size=(224,224), antialias=True),
+    v2.RandomHorizontalFlip(p=0.5),
+    v2.ToDtype(torch.float32, scale=True),
+    v2.Grayscale(num_output_channels=1),
+    v2.ToTensor(),
+    v2.Normalize([0.5], [0.5])
 ])
 
 # Daten laden
-train_data = datasets.ImageFolder('data2/train', transform=transform)
-val_data = datasets.ImageFolder('data2/val', transform=transform)
+train_data = datasets.ImageFolder('data/train', transform=transform)
+val_data = datasets.ImageFolder('data/val', transform=transform)
 
 # DataLoader erstellen
 train_loader = DataLoader(train_data, batch_size=32, shuffle=True)
@@ -96,7 +106,7 @@ train_losses = []
 val_losses = []
 
 # Training
-EPOCHS = 20
+EPOCHS = 200
 for epoch in range(EPOCHS):
     # Trainingsphase
     model.train()
@@ -155,5 +165,5 @@ plt.xlabel('Epochs')
 plt.ylabel('Loss')
 plt.legend()
 plt.grid(True)
-plt.savefig('LD_e20_loss_plot.png')
+plt.savefig('SUD_e200_loss_plot.png')
 plt.show()

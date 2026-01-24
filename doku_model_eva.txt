@@ -1,0 +1,36 @@
+MRI_LAD_e20.pth
+==============================
+Accuracy: 98.12%
+
+==============================
+Detaillierte Evaluation
+==============================
+Global Accuracy: 98.12%
+Global Specificity (Macro Avg): 99.37%
+------------------------------
+Class        | Precision  | Recall     | F1-Score   | Specificity
+-----------------------------------------------------------------
+Mild         |  98.97%    |  95.95%    |  97.44%    |  99.67%
+Moderate     |  99.90%    |  99.65%    |  99.77%    |  99.97%
+Non          |  97.16%    |  99.25%    |  98.19%    |  99.03%
+VeryMild     |  96.54%    |  97.65%    |  97.09%    |  98.83%
+-----------------------------------------------------------------
+
+Scikit-Learn Classification Report:
+              precision    recall  f1-score   support
+
+        Mild       0.99      0.96      0.97      2000
+    Moderate       1.00      1.00      1.00      2000
+         Non       0.97      0.99      0.98      2000
+    VeryMild       0.97      0.98      0.97      2000
+
+    accuracy                           0.98      8000
+   macro avg       0.98      0.98      0.98      8000
+weighted avg       0.98      0.98      0.98      8000
+
+
+
+==============================
+mini_model_pretrained.pth
+==============================
+
