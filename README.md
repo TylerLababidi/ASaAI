@@ -1,24 +1,27 @@
-
 # 🧠 ASaAI – Alzheimer Stadium Classification
 
-Dieses Projekt trainiert ein Convolutional Neural Network (CNN), um verschiedene Alzheimer-Stadien anhand von MRT-Bildern zu klassifizieren.
-Verwendet wird **EfficientNet-B0** aus PyTorch – optional mit vortrainierten ImageNet-Gewichten.
-Trainingsergebnisse werden ausgewertet (Accuracy, Confusion Matrix, Classification Report) und visuell dargestellt.
+Dieses Projekt klassifiziert Alzheimer‑Stadien anhand von MRT‑Bildern mit **PyTorch**.
+
+Im Gegensatz zur ersten Version mit EfficientNet wird nun **ein eigenes CNN (MyMRTModel)** verwendet. Zusätzlich enthält das Projekt **ein Gradio‑Webinterface**, mit dem einzelne MRT‑Bilder interaktiv ausgewertet und die Klassifikations‑Wahrscheinlichkeiten visualisiert werden können.
 
 ---
 
 ## 🚀 Features
 
-* **Datenaugmentation:**
-  Rotation, horizontales Flip, Helligkeit-/Kontrastvariation
-* **GPU-Unterstützung (CUDA)** – automatisch, falls verfügbar
-* **Modellspeicherung:** `mini_model_pretrained.pth`
+* **Eigenes CNN (MyMRTModel)** statt EfficientNet
+* **GPU‑Unterstützung (CUDA)**, automatisch falls verfügbar
+* **Training, Evaluation & Inferenz getrennt**
+* **Modellspeicherung:** `my_mrt_model.pth`
 * **Evaluation:**
 
   * Accuracy
   * Confusion Matrix
   * Classification Report
-* **Visualisierung:** Heatmap der Confusion Matrix
+* **Visualisierung:**
+
+  * Confusion‑Matrix‑Heatmap
+  * Balkendiagramm der Klassen‑Wahrscheinlichkeiten
+* **Web‑UI mit Gradio** für Live‑Inference
 
 ---
 
@@ -27,11 +30,11 @@ Trainingsergebnisse werden ausgewertet (Accuracy, Confusion Matrix, Classificati
 * **Python 3.10+**
 * **Virtuelle Umgebung empfohlen**
 
-### Abhängigkeiten installieren:
+### Abhängigkeiten installieren
 
 ```bash
 pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
-pip install matplotlib seaborn scikit-learn
+pip install matplotlib seaborn scikit-learn gradio pillow
 ```
 
 ---
@@ -42,155 +45,149 @@ pip install matplotlib seaborn scikit-learn
 ASaAI/
 │
 ├─ Data/
-│   ├─ train/          # Trainingsbilder, Unterordner pro Klasse
-│   └─ val/            # Validierungsbilder, Unterordner pro Klasse
+│   ├─ train/          # Trainingsdaten (Unterordner = Klassen)
+│   └─ val/            # Validierungsdaten
 │
-├─ train_and_eval.py   # Trainings- und Evaluationsscript
-├─ README.md           # Dieses Dokument
-└─ mini_model_pretrained.pth  # Optional gespeichertes Modell
+├─ train_model.py      # Training des CNN
+├─ evaluate_model.py   # Evaluation & Confusion Matrix
+├─ app.py              # Gradio Interface für Inferenz
+├─ my_mrt_model.pth    # Gespeichertes Modell
+└─ README.md
 ```
 
-### Beispiel für Datenstruktur:
+### Beispiel Datenstruktur
 
 ```
-Data/train/MildDemented/img001.png
-Data/train/ModerateDemented/img002.png
-Data/val/VeryMildDemented/img003.png
-Data/train/NonDemented/img004.png
+Data/train/Mild/img001.png
+Data/train/Moderate/img002.png
+Data/train/Non/img003.png
+Data/train/VeryMild/img004.png
 ```
+
+---
+
+## 🧠 Klassen
+
+```python
+classes = ['Mild', 'Moderate', 'Non', 'VeryMild']
+```
+
+Die Klassen werden beim Training automatisch aus der Ordnerstruktur gelesen.
 
 ---
 
 ## ▶️ Nutzung
 
-### **1. Projekt klonen**
+### 1️⃣ Projekt klonen & Umgebung aktivieren
 
 ```bash
 git clone <repo-url>
 cd ASaAI
 python -m venv venv
-.\venv\Scripts\activate   # Windows
-# oder
-source venv/bin/activate  # Linux/Mac
+source venv/bin/activate   # Linux/Mac
+venv\\Scripts\\activate    # Windows
 ```
 
-### **2. Abhängigkeiten installieren**
-
-```bash
-pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
-pip install matplotlib seaborn scikit-learn
-```
-
-### **3. Training starten**
+### 2️⃣ Training starten
 
 ```bash
 python train_model.py
+```
+
+**Ablauf:**
+
+* Bilder werden auf **224×224** skaliert
+* Normalisierung auf Bereich **[-1, 1]**
+* Training für **20 Epochen**
+* Optimizer: **Adam (lr = 5e‑4)**
+* Loss: **CrossEntropyLoss**
+* Modell wird als `my_mrt_model.pth` gespeichert
+
+---
+
+### 3️⃣ Evaluation
+
+```bash
 python evaluate_model.py
 ```
 
-Was dann passiert:
+Ausgabe:
 
-* GPU wird automatisch erkannt
-* EfficientNet-B0 wird geladen (mit oder ohne Pretrained Weights)
-* Trainings- und Validierungsphase laufen
-* Modell wird gespeichert
-* Accuracy & Reports werden angezeigt
-* Confusion-Matrix-Heatmap wird visualisiert
+* Accuracy in Prozent
+* Classification Report (Precision, Recall, F1‑Score)
+* Confusion‑Matrix‑Heatmap
 
 ---
 
-## 📥 Modell für spätere Nutzung laden
+### 4️⃣ Gradio Web‑Interface starten
 
-```python
-import torch
-from torchvision import models
-from torch import nn
+```bash
+python app.py
+```
 
-model = models.efficientnet_b0(
-    weights=models.EfficientNet_B0_Weights.IMAGENET1K_V1
-)
+Funktionen:
 
-model.classifier[1] = nn.Linear(model.classifier[1].in_features, 4)
-model.load_state_dict(torch.load("mini_model_pretrained.pth"))
-model.eval()
+* Upload eines MRT‑Bildes
+* Anzeige der vorhergesagten Klasse
+* Balkendiagramm mit Wahrscheinlichkeiten
+
+---
+
+## 🧩 Modellarchitektur (MyMRTModel)
+
+**CNN‑Aufbau:**
+
+* 4 Convolution‑Blöcke (3×3 Kernel)
+* ReLU‑Aktivierung
+* MaxPooling nach jedem Block
+* Fully Connected Layer (256 Neuronen)
+* Dropout (0.5)
+* Output‑Layer: Anzahl Klassen
+
+```text
+Input (3×224×224)
+→ Conv(16)
+→ Conv(32)
+→ Conv(64)
+→ Conv(128)
+→ FC(256)
+→ Output (4 Klassen)
 ```
 
 ---
 
-## 🧩 Erklärung des Codes
+## 📊 Evaluation & Visualisierung
 
-### **1. Imports**
-
-PyTorch, torchvision, sklearn, Matplotlib, Seaborn
-
-### **2. Device-Auswahl**
-
-CUDA, falls verfügbar → sonst CPU
-
-### **3. Datenvorbereitung**
-
-* Resize auf 224×224
-* Normalisierung
-* Data Augmentation für robustere Modelle
-
-### **4. DataLoader**
-
-Batchweise Bilder für Training & Validierung
-
-### **5. Modell**
-
-* EfficientNet-B0
-* Vortrainierte Gewichte optional
-* Klassifizierer wird für z. B. 4 Alzheimer-Klassen angepasst
-
-### **6. Loss & Optimizer**
-
-* CrossEntropyLoss
-* Adam Optimizer
-
-### **7. Training**
-
-* Epochen durchlaufen
-* Loss je Epoch ausgeben
-
-### **8. Evaluation**
-
-* Accuracy
-* Confusion Matrix
-* Classification Report
-
-### **9. Visualisierung**
-
-Heatmap der Confusion Matrix mit seaborn
+* **Accuracy** mit `sklearn.metrics.accuracy_score`
+* **Classification Report** mit `classification_report`
+* **Confusion Matrix** als Seaborn‑Heatmap
+* **Inference‑Visualisierung:** Balkendiagramm der Softmax‑Wahrscheinlichkeiten
 
 ---
 
-## 📊 Hinweise & Tipps
+## ⚠️ Hinweise
 
-### Gute Accuracy erreichen:
-
-* Vortrainierte Gewichte nutzen (IMAGENET1K_V1)
-* Data Augmentation erweitern
-* Lernrate anpassen 
-* Batch Size erhöhen ✅
-* Mehr Bilder nutzen ✅
-
-### Häufige Probleme:
-
-| Problem               | Ursache                                    | Lösung                                          |
-| --------------------- | ------------------------------------------ | ----------------------------------------------- |
-| CUDA fehlt            | Torch ohne GPU installiert                 | Torch mit CUDA neu installieren                 |
-| Niedrige Accuracy     | Wenig Daten, Overfitting oder Underfitting | Augmentieren, mehr Daten, LR ändern, Feintuning |
-| Warnungen beim Report | Klasse fehlt im Testset                    | Mehr balanced Validation                        |
+* Architektur beim Laden **muss exakt** dem Trainingsmodell entsprechen
+* Klassenreihenfolge ergibt sich aus `ImageFolder`
+* Unbalancierte Datensätze beeinflussen Accuracy stark
 
 ---
 
 ## 🔜 Nächste Schritte
 
-* Komplettes Dataset trainieren
-* Feintuning der EfficientNet-Basis
-* Weitere Evaluationsmetriken wie ROC/PR-Kurven
-* Modell exportieren für Web/Apps (z. B. ONNX)
+* Data Augmentation erweitern
+* Klassen‑Balancing (Weighted Loss)
+* ROC‑ & PR‑Kurven
+* Export nach ONNX / TorchScript
+* Vergleich: Eigenes CNN vs. EfficientNet
 
+---
 
+## ✅ Status
 
+✔ Training
+✔ Evaluation
+✔ Web‑Interface
+✔ Visualisierung
+
+Projekt bereit für weitere Experimente und Deployment.
