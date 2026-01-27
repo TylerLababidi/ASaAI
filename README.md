@@ -175,11 +175,8 @@ Input (3×224×224)
 
 ## 🔜 Nächste Schritte
 
-* Data Augmentation erweitern
+* Neuer Datensatz
 * Klassen‑Balancing (Weighted Loss)
-* ROC‑ & PR‑Kurven
-* Export nach ONNX / TorchScript
-* Vergleich: Eigenes CNN vs. EfficientNet
 
 ---
 
@@ -191,3 +188,4 @@ Input (3×224×224)
 ✔ Visualisierung
 
 Projekt bereit für weitere Experimente und Deployment.
+
