@@ -45,7 +45,7 @@ class MyMRTModel(nn.Module):
 
 # Modell laden
 model = MyMRTModel(num_classes=4).to(DEVICE)
-model.load_state_dict(torch.load("my_mrt_model.pth", weights_only=True))
+model.load_state_dict(torch.load("my_mrt_model.pth", weights_only=True, map_location=DEVICE))
 model.eval()
 print("Modell geladen ✅")
 
