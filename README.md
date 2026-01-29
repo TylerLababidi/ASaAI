@@ -3,7 +3,10 @@
 Dieses Projekt klassifiziert Alzheimer‑Stadien anhand von MRT‑Bildern mit **PyTorch**.
 
 Im Gegensatz zur ersten Version mit EfficientNet wird nun **ein eigenes CNN (MyMRTModel bzw. MRI_LAD_e20)** verwendet. Zusätzlich enthält das Projekt **ein Gradio‑Webinterface**, mit dem einzelne MRT‑Bilder interaktiv ausgewertet und die Klassifikations‑Wahrscheinlichkeiten visualisiert werden können.
+
 Anmerkung: MyMRTModel und MRI_LAD_e20 referenzieren dasselbe CNN, wobei MyMRTModel als Arbeitstitel zu verstehen ist. 
+
+Wie das Projekt "einfach" zu nutzen ist, erfahren Sie ganz unten.
 ---
 
 ## 🚀 Features
@@ -187,6 +190,18 @@ Input (3×224×224)
 ✔ Web‑Interface
 ✔ Visualisierung
 
-Projekt bereit für weitere Experimente und Deployment.
+---
+
+## 🖥️ Anwendung der App in der eigenen Umgebung
+
+* Klonen des Main-Branches
+* Öffnen mit einer IDE der Wahl (für das Projekt wurde PyCharm verwendet, daher wird dieses auch empfohlen)
+* Es müssen zum Laden der App folgende Bibliotheken installiert sein:
+** Gradio 6.3.0
+** Matplotlib 3.10.8
+** PyTorch 2.9.1
+  Torchvision 0.25.0
+** 
+
 
 
