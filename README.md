@@ -2,13 +2,13 @@
 
 Dieses Projekt klassifiziert Alzheimer‑Stadien anhand von MRT‑Bildern mit **PyTorch**.
 
-Im Gegensatz zur ersten Version mit EfficientNet wird nun **ein eigenes CNN (MyMRTModel)** verwendet. Zusätzlich enthält das Projekt **ein Gradio‑Webinterface**, mit dem einzelne MRT‑Bilder interaktiv ausgewertet und die Klassifikations‑Wahrscheinlichkeiten visualisiert werden können.
-
+Im Gegensatz zur ersten Version mit EfficientNet wird nun **ein eigenes CNN (MyMRTModel bzw. MRI_LAD_e20)** verwendet. Zusätzlich enthält das Projekt **ein Gradio‑Webinterface**, mit dem einzelne MRT‑Bilder interaktiv ausgewertet und die Klassifikations‑Wahrscheinlichkeiten visualisiert werden können.
+Anmerkung: MyMRTModel und MRI_LAD_e20 referenzieren dasselbe CNN, wobei MyMRTModel als Arbeitstitel zu verstehen ist. 
 ---
 
 ## 🚀 Features
 
-* **Eigenes CNN (MyMRTModel)** statt EfficientNet
+* **Eigenes CNN (MyMRTModel/ MRI_LAD_e20)** statt EfficientNet
 * **GPU‑Unterstützung (CUDA)**, automatisch falls verfügbar
 * **Training, Evaluation & Inferenz getrennt**
 * **Modellspeicherung:** `my_mrt_model.pth`
@@ -188,4 +188,5 @@ Input (3×224×224)
 ✔ Visualisierung
 
 Projekt bereit für weitere Experimente und Deployment.
+
 
