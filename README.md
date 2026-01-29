@@ -7,6 +7,7 @@ Im Gegensatz zur ersten Version mit EfficientNet wird nun **ein eigenes CNN (MyM
 Anmerkung: MyMRTModel und MRI_LAD_e20 referenzieren dasselbe CNN, wobei MyMRTModel als Arbeitstitel zu verstehen ist. 
 
 Wie das Projekt zu nutzen ist, erfahren Sie unter [Anwendung der App](https://github.com/TylerLababidi/ASaAI/blob/main/README.md#%EF%B8%8F-anwendung-der-app-in-der-eigenen-umgebung)
+
 ---
 
 ## 🚀 Features
@@ -206,6 +207,7 @@ Numpy 2.4.0
 * In der Konsole wird ein Link/ IP-Adresse ausgegeben: Entweder im Browser eingeben oder anklicken
 * Beliebige MRT-Bilder aus der Transversalebene können eingegeben werden, beispielhaft sind Bilder unter "evaluationsdaten" zu finden
 * Nach Ausgabe des Ergebnisses auf "clear" drücken
+
 
 
 
