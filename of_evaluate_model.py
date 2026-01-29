@@ -23,7 +23,7 @@ transform = transforms.Compose([
 ])
 
 # Daten laden
-val_data = datasets.ImageFolder('data2/val', transform=transform)
+val_data = datasets.ImageFolder('data3/val', transform=transform)
 val_loader = DataLoader(val_data, batch_size=32)
 classes = val_data.classes
 print(f"Images for validation: {len(val_data)}")
