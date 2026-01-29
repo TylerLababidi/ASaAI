@@ -196,13 +196,14 @@ Input (3×224×224)
 
 * Klonen des Main-Branches
 * Öffnen mit einer IDE der Wahl (für das Projekt wurde PyCharm verwendet, daher wird dieses auch empfohlen)
-* Es müssen zum Laden der App folgende Bibliotheken installiert sein:\\
-Gradio 6.3.0\\
-Matplotlib 3.10.8\\
-PyTorch 2.9.1\\
-Torchvision 0.25.0\\
-Numpy 2.4.0\\
+* Es müssen zum Laden der App folgende Bibliotheken installiert sein:\
+Gradio 6.3.0\
+Matplotlib 3.10.8\
+PyTorch 2.9.1\
+Torchvision 0.25.0\
+Numpy 2.4.0\
 * Ausführen der app.py
 * In der Konsole wird ein Link/ IP-Adresse ausgegeben: Entweder im Browser eingeben oder anklicken
 * Beliebige MRT-Bilder aus der Transversalebene können eingegeben werden, beispielhaft sind Bilder unter "evaluationsdaten" zu finden
 * Nach Ausgabe des Ergebnisses auf "clear" drücken
+
