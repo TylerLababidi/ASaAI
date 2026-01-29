@@ -201,9 +201,10 @@ Gradio 6.3.0\
 Matplotlib 3.10.8\
 PyTorch 2.9.1\
 Torchvision 0.25.0\
-Numpy 2.4.0\
+Numpy 2.4.0
 * Ausführen der app.py
 * In der Konsole wird ein Link/ IP-Adresse ausgegeben: Entweder im Browser eingeben oder anklicken
 * Beliebige MRT-Bilder aus der Transversalebene können eingegeben werden, beispielhaft sind Bilder unter "evaluationsdaten" zu finden
 * Nach Ausgabe des Ergebnisses auf "clear" drücken
+
 
